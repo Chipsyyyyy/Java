@@ -16,7 +16,9 @@ public class linked_list {
         System.out.println("2. Remove from list");
         System.out.println("3. Search list");
         System.out.println("4. Display list info");
-        System.out.println("5. Exit");
+        System.out.println("5. Filter list");
+        System.out.println("6. Clear list");
+        System.out.println("7. Exit");
         int operationChoice = scan.nextInt();
         switch (operationChoice) {
             case 1:
@@ -32,8 +34,15 @@ public class linked_list {
                 displayListInfo();
                 break;
             case 5:
+                filterList();
+                break;
+            case 6:
+                clearList();
+                break;
+            case 7:
                 System.out.println("Goodbye!");
                 System.exit(0);
+                break;
             default:
                 System.out.println("Invalid input. Please try again.");
                 operationsMenu();
@@ -127,17 +136,21 @@ public class linked_list {
     }
 
     public static void displayListInfo() {
-        System.out.println("The list contains: " + list);
-        System.out.println("The head of the list is: " + list.getFirst());
-        System.out.println("The tail of the list is: " + list.getLast());
-        System.out.println("List size: " + list.size());
-        if (verifyList(list)){
-            System.out.println("The list is sorted");
+        try {
+            System.out.println("The list contains: " + list);
+            System.out.println("The head of the list is: " + list.getFirst());
+            System.out.println("The tail of the list is: " + list.getLast());
+            System.out.println("List size: " + list.size());
+            if (verifyList(list)) {
+                System.out.println("The list is sorted");
+            } else {
+                System.out.println("The list is not sorted");
+            }
+            askToContinue();
+        } catch (NoSuchElementException e) {
+            System.out.println("The list is empty");
+            askToContinue();
         }
-        else {
-            System.out.println("The list is not sorted");
-        }
-        askToContinue();
     }
 
     public static void searchList() {
@@ -171,27 +184,6 @@ public class linked_list {
     }
 
     public static void removeFromList() {
-//        for(int i = 0; i < list.size(); i++){
-//            if(list.get(i) == num){
-//                list.remove(i);
-//            }
-//        }
-
-//        int start = 0;
-//        int end = list.size();
-//        int mid = start + (end - start) / 2;
-//        while(list.get(mid) != num && start <= end){
-//            if (list.get(mid) == num){
-//                list.remove(mid);
-//            }
-//            else if(list.get(mid) < num){
-//                start = mid + 1;
-//            }
-//            else {
-//                end = mid - 1;
-//            }
-//            mid = start + (end - start) / 2;
-//        }
         System.out.println("Which number would you like to remove?");
         int num = scan.nextInt();
         if(list.remove(Integer.valueOf(num))){
@@ -202,6 +194,57 @@ public class linked_list {
             System.out.println("The number " + num + " was not found in the list");
         }
         askToContinue();
+    }
+
+    public static void clearList() {
+            list.clear();
+            System.out.println("The list has been cleared");
+            askToContinue();
+    }
+
+    public static void filterList() {
+        /// Filter by 1s, 10s, 100s
+        System.out.println("What would you like to filter by? (1s, 10s, 100s)");
+        int filterInput = scan.nextInt();
+        LinkedList<Integer> filteredList = new LinkedList<>();
+
+        switch(filterInput){
+            case 1:
+                for (Integer integer : list) {
+                    if (integer < 10) {
+                        filteredList.add(integer);
+                    }
+                }
+            System.out.println("The filtered list: " + filteredList);
+            filteredList.clear();
+            askToContinue();
+            break;
+            case 10:
+                for (Integer integer : list) {
+                    if (integer > 9 && integer < 100) {
+                        filteredList.add(integer);
+                    }
+                }
+            System.out.println("The filtered list: " + filteredList);
+            filteredList.clear();
+            askToContinue();
+            break;
+            case 100:
+                for (Integer integer : list) {
+                    if (integer > 99 && integer < 1000) {
+                        filteredList.add(integer);
+                    }
+                }
+            System.out.println("The filtered list: " + filteredList);
+            filteredList.clear();
+            askToContinue();
+            break;
+            default:
+                System.out.println("Invalid input. Please try again.");
+                filterList();
+            break;
+
+        }
     }
 
     public static void askToContinue() {
